@@ -26,7 +26,6 @@ class Solution {
             return ;
         visited[node.val]=true;
         for(int i=0;i<node.neighbors.size();i++){
-            //System.out.println(node.val + " neighbor: "+ node.neighbors.get(i).val);
             Node nei;
             if(map.get(node.neighbors.get(i).val)==null){
                 nei = new Node(node.neighbors.get(i).val);
@@ -44,8 +43,6 @@ class Solution {
         Node n = new Node(node.val);
         map.put(node.val,n);
         getNeighbors(node, n);
-        //System.out.println("-----");
-        //System.out.println(n.neighbors.get(1).neighbors.get(1).val);
         return n;
     }
 }
