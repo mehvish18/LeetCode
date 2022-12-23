@@ -20,29 +20,16 @@ class Node {
 
 class Solution {
     public Map<Integer,Node> map = new HashMap<>();
-    public boolean [] visited =new boolean[101];
-    public void getNeighbors(Node node, Node n){
-        if(visited[node.val])
-            return ;
-        visited[node.val]=true;
-        for(int i=0;i<node.neighbors.size();i++){
-            Node nei;
-            if(map.get(node.neighbors.get(i).val)==null){
-                nei = new Node(node.neighbors.get(i).val);
-                map.put(node.neighbors.get(i).val,nei);
-            }
-            else
-                nei = map.get(node.neighbors.get(i).val);
-            getNeighbors(node.neighbors.get(i),nei);  
-            n.neighbors.add(nei);    
-        }
-    }
     public Node cloneGraph(Node node) {
-        if(node==null)
-            return null;
-        Node n = new Node(node.val);
-        map.put(node.val,n);
-        getNeighbors(node, n);
-        return n;
+       if(node==null)
+           return null;
+       if(map.get(node.val)!=null)
+           return map.get(node.val);
+       Node ans = new Node(node.val);
+       map.put(node.val,ans);
+       for(int i=0;i<node.neighbors.size();i++){
+           ans.neighbors.add(cloneGraph(node.neighbors.get(i)));
+       }
+       return ans;
     }
 }
