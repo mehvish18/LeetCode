@@ -1,68 +1,74 @@
 class Solution {
     Map<String,ArrayList<String>> adj = new HashMap<>();
     Map<String,Boolean> visited = new HashMap<>();
-    
-    public void bfs(String source){
-        //System.out.println("source: "+source);
-        visited.put(source,true);
-        Queue<String> q = new LinkedList<>();
-        q.add(source);
-        while(!q.isEmpty()){
-            String node = q.poll();
-            for(int i=0;i<adj.get(node).size();i++){
-                if(visited.get(adj.get(node).get(i))==null){
+    int m,n;
+    public void bfs(int i1, int j1, char[][] grid){
+        //System.out.println("source: "+i1+" "+j1);
+        visited.put(i1+" "+j1,true);
+        Queue<Integer> q1 = new LinkedList<>();
+        Queue<Integer> q2 = new LinkedList<>();
+        q1.add(i1);
+        q2.add(j1);
+        while(!q1.isEmpty()){
+            int i = q1.poll();
+            int j = q2.poll();
+            String s1 = (i-1)+" "+j;
+            String s2 = (i+1)+" "+j;
+            String s3 = i+" "+(j-1);
+            String s4 = i+" "+(j+1);
+            //System.out.println("s1: "+s1);
+            //System.out.println("s2: "+s2);
+            //System.out.println("s3: "+s3);
+            //System.out.println("s4: "+s4);
+            if(i-1>=0){
+                if(visited.get(s1)==null && grid[i-1][j]=='1'){
                     //System.out.println(adj.get(node).get(i));
-                    q.add(adj.get(node).get(i));
-                    visited.put(adj.get(node).get(i),true);
+                    q1.add(i-1);
+                    q2.add(j);
+                    visited.put(s1,true);
                 }
             }
+            if(i+1<m){
+                if(visited.get(s2)==null && grid[i+1][j]=='1'){
+                    //System.out.println(adj.get(node).get(i));
+                    q1.add(i+1);
+                    q2.add(j);
+                    visited.put(s2,true);
+                }
+            }
+            if(j-1>=0){
+                if(visited.get(s3)==null && grid[i][j-1]=='1'){
+                    //System.out.println(adj.get(node).get(i));
+                    q1.add(i);
+                    q2.add(j-1);
+                    visited.put(s3,true);
+                }
+            }
+            if(j+1<n){
+                if(visited.get(s4)==null && grid[i][j+1]=='1'){
+                    //System.out.println(adj.get(node).get(i));
+                    q1.add(i);
+                    q2.add(j+1);
+                    visited.put(s4,true);
+                }
+            }
+            
         }
     }
     public int numIslands(char[][] grid) {
-        
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[i].length;j++){
-                //System.out.println(i+" "+j);
-                if(grid[i][j]=='1'){
-                    String s = ""+i+"*"+j;
-                    if(adj.get(s)==null)
-                        adj.put(s,new ArrayList<>());
-                    //System.out.println("i+j: "+i+j);
-                    if(i!=grid.length-1){
-                        if(grid[i+1][j]=='1') {
-                            String s1 = ""+(i+1)+"*"+j;
-                            //System.out.println("s s1: "+ s+" "+s1);
-                            ArrayList l = adj.getOrDefault(s,new ArrayList<>());
-                            l.add(s1);
-                            adj.put(s,l);
-                            l = adj.getOrDefault(s1,new ArrayList<>());
-                            l.add(s);
-                            adj.put(s1,l);
-                        }
-                    }
-                    if(j!=grid[i].length-1){
-                        if(grid[i][j+1]=='1') {
-                            String s1 = ""+i+"*"+(j+1);
-                            //System.out.println("2nd s s1: "+ s+" "+s1);
-                            ArrayList l = adj.getOrDefault(s,new ArrayList<>());
-                            l.add(s1);
-                            adj.put(s,l);
-                            l = adj.getOrDefault(s1,new ArrayList<>());
-                            l.add(s);
-                            adj.put(s1,l);
-                        }
-                    }
+        int c=0;
+        m = grid.length;
+        n = grid[0].length;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(visited.get(i+" "+j)==null && grid[i][j]=='1'){ 
+                    bfs(i,j,grid);
+                    c++;  
                 }
             }
-        }
-        int c=0;
-        for (String node : adj.keySet()) {
-                if(visited.get(node)==null){
-                    c++;
-                    bfs(node);
-                }
-        }
         
+        }
+
         return c;
     }
 }
