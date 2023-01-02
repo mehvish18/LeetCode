@@ -7,7 +7,6 @@ class Solution {
     Map<Integer,List<Integer>> lvlsx = new HashMap<>();
     Map<Integer,List<Integer>> lvlsy = new HashMap<>();
     public void bfs(int[][] grid, int i, int j,int lvl){
-        //System.out.println(i+" "+j+" "+lvl);
         visited[i][j]=true;
             for(int k=0;k<4;k++){
                 int x = dir[k][0]+i;
@@ -15,7 +14,6 @@ class Solution {
                 if(x>=0 & x<m & y>=0 & y<n){
                     if(grid[x][y]==1 & !visited[x][y]){
                         fcount--;
-                         //System.out.println(fcount);
                         grid[x][y] = 2;
                         List<Integer> lx = lvlsx.getOrDefault(lvl+1,new ArrayList<Integer>());
                         lx.add(x);
@@ -44,6 +42,7 @@ class Solution {
                 }
             }
         }
+        if (fcount == (grid.length * grid[0].length)) return -1;
         int i=0;
         while(lvlsx.size()>0){
             for(int j=0;j<lvlsx.get(i).size();j++){
@@ -53,16 +52,6 @@ class Solution {
             lvlsy.remove(i);
             i++;
         }
-        /*for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                //System.out.println(fcount);
-                if(!visited[i][j] & grid[i][j]==2){
-                    min++;
-                    bfs(grid,i,j);
-                    //min = Math.max(minVal[lx][ly],min);
-                }
-            }
-        }*/
         if(fcount==0)
             return i-1;
         else return -1;
