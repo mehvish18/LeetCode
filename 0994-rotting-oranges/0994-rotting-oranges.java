@@ -1,59 +1,50 @@
 class Solution {
-    boolean [][] visited;
-    int m,n;
-    int min=0;
-    int fcount = 0;
-    int [][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
-    Map<Integer,List<Integer>> lvlsx = new HashMap<>();
-    Map<Integer,List<Integer>> lvlsy = new HashMap<>();
-    public void bfs(int[][] grid, int i, int j,int lvl){
-        visited[i][j]=true;
-            for(int k=0;k<4;k++){
-                int x = dir[k][0]+i;
-                int y = dir[k][1]+j;
-                if(x>=0 & x<m & y>=0 & y<n){
-                    if(grid[x][y]==1 & !visited[x][y]){
-                        fcount--;
-                        grid[x][y] = 2;
-                        List<Integer> lx = lvlsx.getOrDefault(lvl+1,new ArrayList<Integer>());
-                        lx.add(x);
-                        List<Integer> ly = lvlsy.getOrDefault(lvl+1,new ArrayList<Integer>());
-                        ly.add(y);
-                        lvlsx.put(lvl+1,lx);
-                        lvlsy.put(lvl+1,ly);
-                    }
-                }
-            }
-    }
     public int orangesRotting(int[][] grid) {
-        m = grid.length;
-        n = grid[0].length;
-        int k=0;
-        visited = new boolean[m][n];
-        lvlsx.put(0,new ArrayList<Integer>());
-        lvlsy.put(0,new ArrayList<Integer>());
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==1)
-                    fcount++;
-                if(grid[i][j]==2){
-                    lvlsx.get(0).add(i);
-                    lvlsy.get(0).add(j);
+    Queue<int[]> queue = new LinkedList<>();
+    int zeroCount = 0, fcount=0 ;
+    for (int i=0; i<grid.length; i++){
+        for (int j=0; j<grid[0].length; j++){
+            if(grid[i][j]==0) fcount++;
+            else if (grid[i][j] == 1) zeroCount++;
+            else if (grid[i][j] == 2) queue.add(new int[] {i,j});
+        }
+    }
+    if (fcount == (grid.length * grid[0].length)) return 0;
+    
+
+    // when BFS goes to next "level", you should then advance "minute".
+    int minute = -1;
+
+    while (!queue.isEmpty()){
+        int initalSize = queue.size();
+
+        // BFS x initalSize times 
+        for (int i=0; i<initalSize; i++){
+            int[] orange = queue.remove();
+            int[][] children = {{0,1},{0,-1},{1,0},{-1,0}};
+
+            for (int[] j : children){
+                int newRow = j[0] + orange[0];
+                int newCol = j[1] + orange[1];
+                if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[0].length){
+                    // visit fresh oranges and turn them rotten
+                    if (grid[newRow][newCol] == 1){
+                        grid[newRow][newCol] = 2;
+                        queue.add(new int[]{newRow, newCol});
+                        zeroCount--;
+                    } 
                 }
             }
         }
-        if (fcount == (grid.length * grid[0].length)) return -1;
-        int i=0;
-        while(lvlsx.size()>0){
-            for(int j=0;j<lvlsx.get(i).size();j++){
-                bfs(grid,lvlsx.get(i).get(j),lvlsy.get(i).get(j),i);
-            }
-            lvlsx.remove(i);
-            lvlsy.remove(i);
-            i++;
-        }
-        if(fcount==0)
-            return i-1;
-        else return -1;
+        minute++;
     }
+    
+    if(zeroCount==0)
+        return minute;
+    else
+        return -1;
+}
+
+
+
 }
