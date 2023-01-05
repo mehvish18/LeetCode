@@ -1,37 +1,52 @@
 class Solution {
+
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> set = new HashSet<>(wordList);
-        
-        Queue<String> queue = new LinkedList<>();
-        queue.add(beginWord);
-        
-        Set<String> visited = new HashSet<>();
-        queue.add(beginWord);
-        
-        int changes = 1;
-        
-        while(!queue.isEmpty()){
-            int size = queue.size();
-            for(int i = 0; i < size; i++){
-                String word = queue.poll();
-                if(word.equals(endWord)) return changes;
-                
-                for(int j = 0; j < word.length(); j++){
-                    for(int k = 'a'; k <= 'z'; k++){
-                        char arr[] = word.toCharArray();
-                        arr[j] = (char) k;
-                        
-                        String str = new String(arr);
-                        if(set.contains(str) && !visited.contains(str)){
-                            queue.add(str);
-                            visited.add(str);
-                            set.remove(str);
-                        }
-                    }
+        if(beginWord.equals(endWord) || !wordList.contains(endWord))
+            return 0;
+
+        Set<String> beginSet = new HashSet<>();
+        beginSet.add(beginWord);
+
+        Set<String> endSet = new HashSet<>();
+        endSet.add(endWord);
+
+        Set<String>  dictionary = new HashSet<>(wordList);
+
+        return binaryBfs(beginSet, endSet, dictionary, 1);
+    }
+
+    private int binaryBfs(Set<String> beginSet, Set<String> endSet, Set<String> dictionary, int level) {
+        if(beginSet.isEmpty() || endSet.isEmpty())
+            return 0;
+
+        level++;
+        dictionary.removeAll(beginSet);
+        Set<String> nextSet = new HashSet<>();
+
+        for(String word: beginSet){
+            char[] oldWord = word.toCharArray();
+            for(int i=0;i<oldWord.length;i++){
+                char oldChar = oldWord[i];
+
+                for(char c='a';c<='z';c++){
+                    oldWord[i] = c;
+
+                    String newWord = new String(oldWord);
+
+                    if(!dictionary.contains(newWord))
+                        continue;
+
+                    if(endSet.contains(newWord))
+                        return level;
+
+                    nextSet.add(newWord);
                 }
+
+                oldWord[i] = oldChar;
             }
-            ++changes;
         }
-        return 0;
+
+        return nextSet.size() > endSet.size() ? binaryBfs(endSet, nextSet, dictionary, level) :
+                binaryBfs(nextSet, endSet, dictionary, level);
     }
 }
