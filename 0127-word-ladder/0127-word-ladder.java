@@ -1,9 +1,5 @@
 class Solution {
     public int binaryBfs(Set<String> begin, Set<String> end, Set<String> dictionary, int level){
-       /* System.out.println(begin);
-        System.out.println(end);
-        System.out.println(dictionary);
-        System.out.println(level+"\n");*/
         if(begin.size()==0||end.size()==0)
             return 0;
         level++;
@@ -28,7 +24,7 @@ class Solution {
         return (newSet.size()>end.size())?binaryBfs(end,newSet,dictionary,level):binaryBfs(newSet,end,dictionary,level);
     }
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        if(beginWord.equals(endWord) || !wordList.contains(endWord))
+        if(!wordList.contains(endWord))
             return 0;
         Set<String> begin = new HashSet<>();
         begin.add(beginWord);
