@@ -23,7 +23,6 @@ class Solution {
         for(int i=0;i<v;i++){
             int u = minKey(key,inMst);
             inMst[u] = true;
-            //System.out.println(u+" "+key[u]);
             ans += key[u];
             for(int j=0;j<v;j++){
                 if(graph[u][j]!=0 && !inMst[j] && graph[u][j]<key[j]){
@@ -43,15 +42,9 @@ class Solution {
                     graph[i][j]=0;
                 else
                     graph[i][j] = Math.abs(points[i][0]-points[j][0]) + Math.abs(points[i][1]-points[j][1]);
-                //System.out.println(i+" "+j+" "+graph[i][j]);
             }
         }
         prims();
-        int cost=0;
-        //System.out.println(Arrays.toString(parent));
-        /*for(int i=1;i<v;i++){
-            cost += graph[i][parent[i]];
-        }*/
         return ans;
     }
 }
