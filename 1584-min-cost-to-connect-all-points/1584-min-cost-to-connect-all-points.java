@@ -2,6 +2,7 @@ class Solution {
     int v;
     int [][] graph;
     int [] parent;
+    int ans=0;
     public int minKey(int [] key, boolean [] inMST){
         int m = Integer.MAX_VALUE;
         int mIndex = -1;
@@ -19,9 +20,11 @@ class Solution {
         Arrays.fill(key, Integer.MAX_VALUE);
         key[0]=0;
         parent[0]=-1;
-        for(int i=0;i<v-1;i++){
+        for(int i=0;i<v;i++){
             int u = minKey(key,inMst);
             inMst[u] = true;
+            //System.out.println(u+" "+key[u]);
+            ans += key[u];
             for(int j=0;j<v;j++){
                 if(graph[u][j]!=0 && !inMst[j] && graph[u][j]<key[j]){
                     key[j]=graph[u][j];
@@ -46,9 +49,9 @@ class Solution {
         prims();
         int cost=0;
         //System.out.println(Arrays.toString(parent));
-        for(int i=1;i<v;i++){
+        /*for(int i=1;i<v;i++){
             cost += graph[i][parent[i]];
-        }
-        return cost;
+        }*/
+        return ans;
     }
 }
