@@ -32,18 +32,15 @@ class Solution {
             if(pq.isEmpty())
                 return;
             int u = pq.remove().node;
-            //System.out.println("u:"+u+" "+dist[u]);
             if(settled.contains(u))
                 continue;
             
             settled.add(u);
             for(int i=0;i<adj.get(u).size();i++){
                 Node v = adj.get(u).get(i);
-                //System.out.println("v:"+v.node+" dist: "+v.dist);
                 if(!settled.contains(v.node)){
                     if(dist[u]+v.dist < dist[v.node]){
                         dist[v.node] = dist[u]+v.dist;
-                        //System.out.println("dist:"+dist[v.node]);
                     }
                     pq.add(new Node(v.node,dist[v.node]));
                 }
@@ -60,17 +57,11 @@ class Solution {
         }
         for(int i=0;i<m;i++){
             Node no = new Node(times[i][1],times[i][2]);
-            //System.out.println(i+ " "+times[i][1]);
             adj.get(times[i][0]).add(no);
         }
-        /*for(int i=0;i<adj.size();i++){
-            for(int j=0;j<adj.get(i).size();j++)
-                System.out.println(i+"-> "+adj.get(i).get(j).node);
-        }*/
         dijikstra(k);
         int max=0;
         for(int i=1;i<=n;i++){
-            //System.out.println("i:"+i+" dist:"+dist[i]);
             max = Math.max(max,dist[i]);
         }
         if(max == Integer.MAX_VALUE )
