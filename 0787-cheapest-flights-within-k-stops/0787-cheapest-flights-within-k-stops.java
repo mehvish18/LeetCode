@@ -39,21 +39,14 @@ class Solution {
         PriorityQueue<Node> pq = new PriorityQueue<Node>(new Node());
         pq.add(new Node(src,0,k));
         dist[src]=0;
-        //for(int i=0;i<n;i++){
         while(!pq.isEmpty()){
                 //break;
             Node u = pq.remove();
             if(u.node==dst)
                 return u.dist;
             
-            /*System.out.println("u: "+u.node);
-            System.out.println("u.dist:"+u.dist);
-            System.out.println("dist[u]:"+dist[u.node]);*/
             for(Node v:adj.get(u.node)){
                 if(u.kLeft>=0){
-                    /*System.out.println("v:"+v.node);
-                    System.out.println("v.dist:"+v.dist);
-                    System.out.println("dist[v.node]:"+dist[v.node]);*/
                     if(v.node!=dst && u.kLeft==0)
                         continue;
                     if(u.dist+v.dist < dist[v.node]){
@@ -63,14 +56,6 @@ class Solution {
                     }
                     else if(u.kLeft-1 > step[v.node])
                         pq.add(new Node(v.node,u.dist+v.dist,u.kLeft-1));
-                    //System.out.println("after dist[v.node]:"+dist[v.node]);
-                    
-                    /*Node [] a = new Node[n];
-                    pq.toArray(a);
-                    System.out.println("pq:");
-                    for(int l=0;l<a.length;l++)
-                        if(a[l]!=null)
-                            System.out.println(a[l].node+" "+a[l].dist+" "+a[l].kLeft);*/
                 }
             }
         }
