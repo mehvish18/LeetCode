@@ -42,9 +42,9 @@ class Solution {
                     stops[next] = stop + 1;
                     queue.offer(new Pair(next,stop+1,priceTo + price));
                 }
-                else if(priceTo + price > prices[next] && stop + 1 > stops[next]){
+                /*else if(priceTo + price > prices[next] && stop + 1 > stops[next]){
                     continue;
-                }
+                }*/
                 else if(stop + 1 < stops[next]){
                     queue.offer(new Pair(next,stop+1,priceTo + price));
 
