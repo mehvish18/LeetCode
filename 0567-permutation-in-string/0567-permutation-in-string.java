@@ -16,26 +16,20 @@ class Solution {
                     co++;
             }
         }
-        //System.out.println(mp.size());
         if(co==mp.size())
             return true;
         for(int i=k;i<s2.length();i++){
             char c = s2.charAt(i);
-            //System.out.println(s2.charAt(i-k)+" "+c);
-            //System.out.println("before co "+co);
             if(mp.get(s2.charAt(i-k))!=null){
                 if(mp.get(s2.charAt(i-k))==0)
                     co--;
                 mp.put(s2.charAt(i-k),mp.get(s2.charAt(i-k))+1);
-                //System.out.println("yo "+s2.charAt(i-k)+" "+mp.get(s2.charAt(i-k))+" "+counterMap.get(s2.charAt(i-k)));
             }
             if(mp.get(c)!=null){ 
                 mp.put(c,mp.get(c)-1);
-                //System.out.println("hello "+c+" "+counterMap.get(c)+" "+mp.get(c));
                 if(mp.get(c)==0)
                     co++;
             }
-            //System.out.println("after co "+co);
             if(co==mp.size())
                 return true;
         }
