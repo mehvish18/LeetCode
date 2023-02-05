@@ -29,18 +29,16 @@ class Solution {
         while(pq.size()>0){
             CharCount chp = pq.poll();
             if(chp!=null) {
-                //System.out.println(chp.ch +" "+chp.count);
                 time++;
             }
             if(pq.size()==0 && chp.count-1==0)
                 break;
-            //System.out.println("time: "+time);
             List<CharCount> cc = new ArrayList<>();
             for(int i=0;i<n;i++){
                     CharCount cpk = pq.poll();
                     cc.add(cpk);
                     time++;
-                    //System.out.println("innr time: "+time);
+            
                     if(pq.size()==0 && chp.count-1==0)
                         break;
             }
@@ -50,7 +48,6 @@ class Solution {
             }
             for(CharCount cpk : cc){
                 if(cpk!=null) {
-                        //System.out.println("innr "+cpk.ch+" "+cpk.count);
                         if(cpk.count>1){
                             cpk.count--; 
                             pq.add(cpk);
