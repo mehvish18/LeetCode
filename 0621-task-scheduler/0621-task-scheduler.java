@@ -1,62 +1,36 @@
 class Solution {
-    class CharCount{
-        public char ch;
-        public int count;
-    }
     public int leastInterval(char[] tasks, int n) {
-        Map<Character,Integer> mp = new HashMap<>();
-        PriorityQueue<CharCount> pq = new PriorityQueue<>(new Comparator<CharCount>(){
-            public int compare(CharCount c1, CharCount c2) {
-                if(c1.count==c2.count)
-                    return 0;
-                else if(c1.count<c2.count)
-                    return 1;
-                else
-                    return -1;
-                    
-            }
-        });
-        for(int i=0;i<tasks.length;i++){
-            mp.put(tasks[i],mp.getOrDefault(tasks[i],0)+1);
+        if(n==0){
+            return tasks.length;
         }
-        for (Map.Entry<Character,Integer> entry : mp.entrySet()){
-            CharCount chp = new CharCount();
-            chp.ch = entry.getKey();
-            chp.count = entry.getValue();
-            pq.add(chp);
-        }
-        int time=0;
-        while(pq.size()>0){
-            CharCount chp = pq.poll();
-            if(chp!=null) {
-                time++;
-            }
-            if(pq.size()==0 && chp.count-1==0)
-                break;
-            List<CharCount> cc = new ArrayList<>();
-            for(int i=0;i<n;i++){
-                    CharCount cpk = pq.poll();
-                    cc.add(cpk);
-                    time++;
-            
-                    if(pq.size()==0 && chp.count-1==0)
-                        break;
-            }
-            if(chp.count>1){
-                chp.count--; 
-                pq.add(chp);
-            }
-            for(CharCount cpk : cc){
-                if(cpk!=null) {
-                        if(cpk.count>1){
-                            cpk.count--; 
-                            pq.add(cpk);
-                        }
+        HashMap<Character, Integer> map=new HashMap<>();
+        for(char x: tasks) map.put(x, map.getOrDefault(x, 0)+1);
+        PriorityQueue<Map.Entry<Character, Integer>> pq =new PriorityQueue<Map.Entry<Character, Integer>>((e1, e2) -> e2.getValue()-e1.getValue());
+        pq.addAll(map.entrySet());
+        PriorityQueue<Map.Entry<Character, Integer>> q =new PriorityQueue<Map.Entry<Character, Integer>>((e1, e2) -> e2.getValue()-e1.getValue());
+        int res=0;
+        while(!pq.isEmpty()){
+            for(int i=0; i<=n; i++){
+                if(!pq.isEmpty()){
+                    Map.Entry<Character, Integer> entry = pq.poll();
+                    entry.setValue(entry.getValue() - 1);
+                    if(entry.getValue()!=0){
+                        q.add(entry);
+                    }
+                    res++;
+                    //System.out.println("a");
+                }else if(!q.isEmpty()){
+                    res++;
+                    //System.out.println("b");
+                }else{
+                    break;
                 }
             }
-            
+            while(!q.isEmpty()){
+                Map.Entry<Character, Integer> entry = q.poll();
+                pq.add(entry);
+            }
         }
-        return time;
+        return res;
     }
 }
-
