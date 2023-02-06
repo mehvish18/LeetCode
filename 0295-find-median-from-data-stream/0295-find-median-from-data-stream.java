@@ -19,10 +19,6 @@ class MedianFinder {
     public double findMedian() {
         Integer minHead = minHeap.peek();
         Integer maxHead = maxHeap.peek();
-        /*System.out.println("Min heap size: "+minHeap.size());
-        System.out.println("Max heap size: "+maxHeap.size());
-        System.out.println("minHead: "+minHeap.peek());
-        System.out.println("maxhead: "+maxHeap.peek());*/
         if(minHeap.size()==maxHeap.size()){
             return ((double)(minHead+maxHead)/2);
         }
