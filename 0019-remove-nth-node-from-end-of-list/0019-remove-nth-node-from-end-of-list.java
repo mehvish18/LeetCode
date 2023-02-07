@@ -13,9 +13,6 @@ class Solution {
         List<ListNode> lst = new ArrayList<>();
         lst.add(head);
         while(head.next!=null){
-            /*ListNode node = new ListNode();
-            node.val = head.next().val;
-            node.next = head;*/
             head = head.next;
             lst.add(head);     
         }
