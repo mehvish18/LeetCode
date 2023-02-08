@@ -5,10 +5,6 @@ class Solution {
             String [] hhMM = timePoints.get(i).split(":");
             int totalTime = Integer.parseInt(hhMM[0])*60+Integer.parseInt(hhMM[1]);
             time.add(totalTime);
-            /*if(hhMM[0].equals("00")){
-                totalTime = 24*60+Integer.parseInt(hhMM[1]);
-                time.add(totalTime);
-            }*/
         }
         Collections.sort(time);
         int min = Integer.MAX_VALUE;
