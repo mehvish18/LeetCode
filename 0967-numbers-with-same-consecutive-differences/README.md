@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/numbers-with-same-consecutive-differences/">967. Numbers With Same Consecutive Differences</a></h2><h3>Medium</h3><hr><div><p>Given two integers n and k, return <em>an array of all the integers of length </em><code>n</code><em> where the difference between every two consecutive digits is </em><code>k</code>. You may return the answer in <strong>any order</strong>.</p>
+<h2><a href="https://leetcode.com/problems/numbers-with-same-consecutive-differences/solution/">967. Numbers With Same Consecutive Differences</a></h2><h3>Medium</h3><hr><div><p>Given two integers n and k, return <em>an array of all the integers of length </em><code>n</code><em> where the difference between every two consecutive digits is </em><code>k</code>. You may return the answer in <strong>any order</strong>.</p>
 
 <p>Note that the integers should not have leading zeros. Integers as <code>02</code> and <code>043</code> are not allowed.</p>
 
