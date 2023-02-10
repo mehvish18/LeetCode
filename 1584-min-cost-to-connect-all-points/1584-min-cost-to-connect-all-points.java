@@ -37,11 +37,10 @@ class Solution {
         parent = new int[v];
         graph = new int[v][v];
         for(int i=0;i<v;i++){
-            for(int j=0; j<v;j++){
-                if(i==j)
-                    graph[i][j]=0;
-                else
+            graph[i][i]=0;
+            for(int j=i+1; j<v;j++){
                     graph[i][j] = Math.abs(points[i][0]-points[j][0]) + Math.abs(points[i][1]-points[j][1]);
+                graph[j][i] = Math.abs(points[i][0]-points[j][0]) + Math.abs(points[i][1]-points[j][1]);
             }
         }
         prims();
