@@ -49,8 +49,8 @@ class Solution {
                 if(u.kLeft>=0){
                     if(v.node!=dst && u.kLeft==0)
                         continue;
-                    if(dist[u.node]+v.dist < dist[v.node]){
-                        dist[v.node]=dist[u.node]+v.dist;
+                    if(u.dist+v.dist < dist[v.node]){
+                        dist[v.node]=u.dist+v.dist;
                         step[v.node]=u.kLeft-1;
                         pq.add(new Node(v.node,u.dist+v.dist,u.kLeft-1));
                     }
