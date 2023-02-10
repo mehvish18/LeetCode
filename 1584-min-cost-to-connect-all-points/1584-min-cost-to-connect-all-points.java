@@ -19,7 +19,7 @@ class Solution {
         boolean [] inMst = new boolean[v];
         Arrays.fill(key, Integer.MAX_VALUE);
         key[0]=0;
-        parent[0]=-1;
+     
         for(int i=0;i<v;i++){
             int u = minKey(key,inMst);
             inMst[u] = true;
@@ -27,7 +27,7 @@ class Solution {
             for(int j=0;j<v;j++){
                 if(graph[u][j]!=0 && !inMst[j] && graph[u][j]<key[j]){
                     key[j]=graph[u][j];
-                    parent[j]=u;
+                
                 }
             }
         }
