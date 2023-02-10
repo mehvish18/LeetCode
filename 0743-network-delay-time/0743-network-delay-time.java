@@ -10,11 +10,7 @@ public class Node implements Comparator<Node>{
             this.dist=dist;
         }
         @Override public int compare(Node n1, Node n2){
-            if(n1.dist>n2.dist)
-                return 1;
-            if(n1.dist<n2.dist)
-                return -1;
-            return 0;
+            return n1.dist-n2.dist;
         }
     }
 class Solution {
