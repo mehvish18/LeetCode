@@ -19,8 +19,7 @@ class Solution {
         boolean [] inMst = new boolean[v];
         Arrays.fill(key, Integer.MAX_VALUE);
         key[0]=0;
-     
-        for(int i=0;i<v;i++){
+        for(int i=0;i<v-1;i++){
             int u = minKey(key,inMst);
             inMst[u] = true;
             ans += key[u];
@@ -31,6 +30,8 @@ class Solution {
                 }
             }
         }
+        int u = minKey(key,inMst);
+        ans += key[u];
     }
     public int minCostConnectPoints(int[][] points) {
         v = points.length;
