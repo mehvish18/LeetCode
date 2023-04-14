@@ -3,15 +3,12 @@ class Solution {
         int l=0, r=height.length-1;
         int area = 0;
         int currMin = 0;
-        //System.out.println("l "+l+" r "+r+" area " +area+ " cm "+currMin);
         while(l<r){
             area = area - Math.min(currMin,Math.min(height[l],height[r]));
             if(currMin<Math.min(height[l],height[r])){ 
                 area = area +(Math.min(height[l],height[r]) - currMin)*(r-l-1);
                 currMin = Math.min(height[l],height[r]);  
             }
-            //System.out.println(height[l]+" "+height[r]);
-             //System.out.println("l "+l+" r "+r+" area " +area+ " cm "+currMin);
             if(height[l]<=height[r])
                 l++;
             else
