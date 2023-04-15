@@ -5,6 +5,7 @@ class Solution {
         int min=r,m=0;
         while(l<=r){
             m = l+(r-l)/2;
+            //System.out.println(l+" "+r+" "+m);
             long hours =0;
             for(int i=0;i<piles.length;i++){
                 double d = (double)piles[i]/m;
@@ -16,9 +17,10 @@ class Solution {
             else {
                 if(hours<=h){   
                     r = m-1;
+                    min = Math.min(min,m);
                 }
             }
         }
-        return l;
+        return min;
     }
 }
