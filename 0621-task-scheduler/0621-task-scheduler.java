@@ -18,10 +18,10 @@ class Solution {
                         q.add(entry);
                     }
                     res++;
-                    System.out.println("a");
+                   // System.out.println("a");
                 }else if(!q.isEmpty()){
                     res++;
-                    System.out.println("b");
+                    //System.out.println("b");
                 }else{
                     break;
                 }
