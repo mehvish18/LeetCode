@@ -29,7 +29,8 @@ class Solution {
             List<int[]> lst = new ArrayList<>();
             for(int i=0;i<n;i++){
                 int [] ElementsLeftToSelect = pq.poll();
-                lst.add(ElementsLeftToSelect);
+                if(ElementsLeftToSelect!=null)
+                    lst.add(ElementsLeftToSelect);
                 time++;
                 if(pq.size()==0 && pqEle[1]-1==0)
                         break; 
@@ -39,18 +40,28 @@ class Solution {
                 pq.add(pqEle);
             }
             for(int[] ele : lst){
-                if(ele!=null) {
+                
                         if(ele[1]>1){
                             ele[1]=ele[1]-1; 
                             pq.add(ele);
                         }
-                }
+                
             }
         }
         return time;
         
     }
 }
+
+/*
+time =2
+["A","A","A","B","B","B"]
+A:3
+B:3
+
+
+B
+*/
 
 
 
