@@ -1,38 +1,54 @@
 class Solution {
     public int leastInterval(char[] tasks, int n) {
-        if(n==0){
+        if(n==0)
             return tasks.length;
-        }
-        HashMap<Character, Integer> map=new HashMap<>();
-        for(char x: tasks) map.put(x, map.getOrDefault(x, 0)+1);
-        PriorityQueue<Map.Entry<Character, Integer>> pq =new PriorityQueue<Map.Entry<Character, Integer>>((e1, e2) -> e2.getValue()-e1.getValue());
-        pq.addAll(map.entrySet());
-        PriorityQueue<Map.Entry<Character, Integer>> q =new PriorityQueue<Map.Entry<Character, Integer>>((e1, e2) -> e2.getValue()-e1.getValue());
-        int res=0;
-        while(!pq.isEmpty()){
-            for(int i=0; i<=n; i++){
-                if(!pq.isEmpty()){
-                    Map.Entry<Character, Integer> entry = pq.poll();
-                    entry.setValue(entry.getValue() - 1);
-                    if(entry.getValue()!=0){
-                        q.add(entry);
-                    }
-                    res++;
-                   // System.out.println("a");
-                }else if(!q.isEmpty()){
-                    res++;
-                    //System.out.println("b");
-                }else{
-                    break;
-                }
+        int ans=0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>(){
+            public int compare(int[] a1,int[] a2){
+                return a2[1]-a1[1];
             }
-            while(!q.isEmpty()){
-                Map.Entry<Character, Integer> entry = q.poll();
-                pq.add(entry);
+        });
+        Map<Integer, Integer> mp = new HashMap<>();
+        Map<Integer, Integer> index = new HashMap<>();
+        for(int i=0;i<tasks.length;i++){
+            mp.put((int)tasks[i],mp.getOrDefault((int)tasks[i],0)+1);
+        }
+        for(int a: mp.keySet()){
+            int [] pqEle = new int[2];
+            pqEle[0] = a;
+            pqEle[1] = mp.get(a);
+            pq.add(pqEle);
+        }
+        int time=0;
+        while(pq.size()>0){
+            int pqEle[] = pq.poll();
+            if(pqEle!=null)
+                time++;
+            if(pq.size()==0 && pqEle[1]-1==0)
+                break;
+            List<int[]> lst = new ArrayList<>();
+            for(int i=0;i<n;i++){
+                int [] ElementsLeftToSelect = pq.poll();
+                if(ElementsLeftToSelect!=null)
+                    lst.add(ElementsLeftToSelect);
+                time++;
+                if(pq.size()==0 && pqEle[1]-1==0)
+                        break; 
+            }
+            if(pqEle[1]>1){
+                pqEle[1]=pqEle[1]-1; 
+                pq.add(pqEle);
+            }
+            for(int[] ele : lst){
+                
+                        if(ele[1]>1){
+                            ele[1]=ele[1]-1; 
+                            pq.add(ele);
+                        }
+                
             }
         }
-        return res;
+        return time;
+        
     }
 }
-
-
