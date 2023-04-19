@@ -11,7 +11,7 @@ class Solution {
         boolean [][] seen = new boolean[m][n];
         pq.add(new int[]{0,0});
         int max = grid[0][0];
-        while(true){
+        while(pq.size()>0){
             int [] t = pq.remove();
             if(seen[t[0]][t[1]])
                 continue;
