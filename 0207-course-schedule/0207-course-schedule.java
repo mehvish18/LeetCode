@@ -1,15 +1,12 @@
 class Solution {
-    boolean [] visited;
     int [] deg;
     List<List<Integer>> adj = new ArrayList<>();
-    int courses;
     List<Integer> toplogical = new ArrayList<>();
     
     
     public boolean canFinish(int n, int[][] prerequisites) {
         Queue<Integer> q = new LinkedList<Integer>();
         deg = new int[n];
-        visited = new boolean [n];
         for(int i=0;i<n;i++){
             adj.add(new ArrayList<>());
         }
