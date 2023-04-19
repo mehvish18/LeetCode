@@ -13,8 +13,8 @@ class Solution {
                     else
                         dp[i][j] = Integer.MAX_VALUE-1;
                 }
-                /*else if(coins[i-1]==j)
-                    dp[i][j]=1;*/
+                else if(coins[i-1]==j)
+                    dp[i][j]=1;
                 else if(j<coins[i-1]) {
                     dp[i][j] = dp[i-1][j];
                 }
