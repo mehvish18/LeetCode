@@ -1,22 +1,31 @@
 class Solution {
     public int trap(int[] height) {
-        int l=0, r=height.length-1;
-        int area = 0;
-        int currMin = 0;
-        while(l<r){
-            area = area - Math.min(currMin,Math.min(height[l],height[r]));
-            if(currMin<Math.min(height[l],height[r])){ 
-                area = area +(Math.min(height[l],height[r]) - currMin)*(r-l-1);
-                currMin = Math.min(height[l],height[r]);  
-            }
-            if(height[l]<=height[r])
-                l++;
-            else
-                r--;
-           
-        }
+       int l =0, h=height.length -1;
+       int highestLowestHeight = 0;
+       int area = 0;
+       while(l<h){
+           if(height[l]<height[h]){
+               if(height[l]>highestLowestHeight){
+                   area = area + ((height[l]-highestLowestHeight)*(h-l)) - height[l];
+                   highestLowestHeight = height[l];
+               }
+               else{
+                   area = area - height[l];
+               }
+               l++;
+           }
+           else {
+               if(height[h]>highestLowestHeight){
+                   area = area + ((height[h]-highestLowestHeight)*(h-l)) - height[h];
+                   highestLowestHeight = height[h];
+               }
+               else{
+                   area = area - height[h];
+               }
+               h--;
+           }
+       }
         return area;
-        
     }
 }
 
@@ -28,6 +37,26 @@ class Solution {
 0 1 2 3 4 5 6 7 8 9 10 11
 
 
+l=7
+h=7
 
-0+9-0-0-1+6-1-1-0-1-2-1-2 = 9-9+6 = 6
+hi = 3
+
+a = (1-0)*(11-1)-1* -0 -1* + (2-1)*(10-3)-2* - 1 -0 - 1 - 2 -1-2 
+a = 10 -1 -0 -1 + 7 - 2 -1 - 0 -1 -2 -1 -2  = 6
+
+
+4,2,0,3,2,5
+0,1,2,3,4,5
+
+
+l=5 h=5
+
+hi=4
+
+a = (4-0)*(5-0) - 4 -2 - 0 - 3 - 2 = 9
+
+
 */
+
+
