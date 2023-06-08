@@ -1,45 +1,41 @@
 class Solution {
     public String longestPalindrome(String s) {
-        String s2="";
-        int n=s.length();
-        int dp[][]=new int [n+1][n+1];
-        int max=0;
-        String ans = "";
-        for(int i=n-1;i>=0;i--){
-            s2 = s2+s.charAt(i);
+        int n = s.length();
+        int [][] dp = new int [n][n];
+        int max = 0, iIdx=0, jIdx=0;
+        for(int i=0;i<n;i++){
+            dp[i][i] = 1;
         }
-        for(int i=0;i<=n;i++) {
-            dp[i][0]=0;
-            dp[0][i]=0;
-        }
-        int iIdx = 0;
-        int jIdx = 0;
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=n;j++){
-                if(s.charAt(i-1)==s2.charAt(j-1)){
-                        dp[i][j]=1+dp[i-1][j-1];
-                        if(max<dp[i][j]){
-                            if(i-dp[i][j]==n-j)
-                            {
-                                max=dp[i][j];
-                                iIdx = i;
-                                jIdx = j;
-                            }
-                    }
-                    
-                }
-                else 
-                    dp[i][j]=0;
-                
+        for(int i=0;i<n-1;i++){
+            if(s.charAt(i)==s.charAt(i+1)){
+                iIdx=i;
+                jIdx=i+1;
+                max=2;
+                dp[i][i+1] = 1;
             }
         }
-        
-        while(iIdx>=1 && jIdx>=1 && dp[iIdx][jIdx]>0){
-            ans += s.charAt(iIdx-1);
-            iIdx--;
-            jIdx--;
+        for(int k=3;k<=n;k++){
+             for (int i = 0; i < n-k+1; i++){
+                 int j = i + k - 1;
+                if(s.charAt(i)==s.charAt(j)){
+                    if(dp[i+1][j-1]==1) {
+                        dp[i][j] = 1;
+                        if((j-i+1)>max){
+                            max=(j-i+1);
+                            iIdx = i;
+                            jIdx = j;
+                        }
+                    }
+                }
+            }
         }
-        return ans;
+        return s.substring(iIdx,jIdx+1);
         
     }
 }
+
+/*
+
+
+
+*/
