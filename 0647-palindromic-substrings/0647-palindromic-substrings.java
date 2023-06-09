@@ -1,39 +1,27 @@
 class Solution {
     public int countSubstrings(String s) {
+        int n = s.length();
+        int dp[][] = new int[n][n];
         int count=0;
-        int l=0,r=0;
-        int le=0, re=0;
-        for(int mid=0;mid<s.length();mid++){
-            l = mid-1; 
-            r = mid+1;
-            le = mid;
-            re = mid+1;
-            int currCount =1;
-            int eveCount =0;
-            while(l>=0 && r<s.length() && s.charAt(l)==s.charAt(r)){
-                l--;
-                r++;
-                currCount++;
+        for(int k=0;k<n;k++){
+            dp[k][k] = 1;
+            count++;
+        }
+        for(int k=0;k<n-1;k++){
+            if(s.charAt(k)==s.charAt(k+1)){
+                dp[k][k+1] = 1;
+                count++;                                           
             }
-            while(le>=0 && re<s.length() && s.charAt(le)==s.charAt(re)){
-                le--;
-                re++;
-                eveCount++;
+        }
+        for(int k=3;k<=n;k++){
+            for(int i=0;i<=n-k;i++){
+                int j = i+k-1;
+                if(s.charAt(i)==s.charAt(j) && dp[i+1][j-1]==1){
+                    dp[i][j] = 1;
+                    count++;                                          
+                }
             }
-            
-            count = count+currCount+eveCount;
         }
         return count;
     }
 }
-
-/*
-     b. a  c. b  b
- [0, 0, 0, 0, 0, 0]
-b[0, 1, 0, 0, 1, 1]
-b[0, 1, 0, 0, 1, 2]
-c[0, 0, 0, 1, 0, 0]
-a[0, 0, 1, 0, 0, 0]
-b[0, 1, 0, 0, 1, 1]
-
-*/
