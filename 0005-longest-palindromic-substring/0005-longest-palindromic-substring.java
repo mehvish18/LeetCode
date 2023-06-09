@@ -1,40 +1,49 @@
 class Solution {
     public String longestPalindrome(String s) {
+        String rev = "";
         int n = s.length();
-        int [][] dp = new int [n][n];
-        int max = 0, iIdx=0, jIdx=0;
-        for(int i=0;i<n;i++){
-            dp[i][i] = 1;
+        for(int i=n-1;i>=0;i--){
+            rev = rev + s.charAt(i);
         }
-        for(int i=0;i<n-1;i++){
-            if(s.charAt(i)==s.charAt(i+1)){
-                iIdx=i;
-                jIdx=i+1;
-                max=2;
-                dp[i][i+1] = 1;
-            }
-        }
-        for(int k=3;k<=n;k++){
-             for (int i = 0; i < n-k+1; i++){
-                 int j = i + k - 1;
-                if(s.charAt(i)==s.charAt(j)){
-                    if(dp[i+1][j-1]==1) {
-                        dp[i][j] = 1;
-                        if((j-i+1)>max){
-                            max=(j-i+1);
-                            iIdx = i;
-                            jIdx = j;
-                        }
+        int [][] dp = new int[n+1][n+1];
+        int max = 0;
+        int Idx=0, Jdx;
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=n;j++){
+                if(i==0 || j==0) {
+                    dp[i][j] = 0;
+                    continue;
+                }
+                
+                if(s.charAt(i-1)==rev.charAt(j-1)){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                    if(max<dp[i][j] && i-dp[i][j]==n-j){
+                        max=dp[i][j];
+                        Idx=i;
+                        Jdx=j;
                     }
                 }
+                else
+                    dp[i][j]=0;
             }
         }
-        return s.substring(iIdx,jIdx+1);
-        
+        return s.substring(Idx-max,Idx);
     }
 }
-
 /*
+  0 1 2 3 4 5
+0 0 0 0 0 0 0
+1 0 0 0 1 0 1
+2 0 0 1 0 2 0
+3 0 0 0 2 0 3
+4 0 0 0 0 3 0
+5 0 0 0 0 0 0
+
+
+babad
+dabab
+
+
 
 
 
