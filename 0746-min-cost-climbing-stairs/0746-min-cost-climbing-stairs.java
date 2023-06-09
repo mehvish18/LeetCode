@@ -3,12 +3,8 @@ class Solution {
         int n = cost.length;
         int first = cost[0];
         int second = cost[1];
-        int ans = Math.min(first, second);
-        for(int i=2;i<n;i++){
-            ans = cost[i]+Math.min(first,second);
-            first = second;
-            second = ans;
-        }
-        return Math.min(first,second);
+        for(int i=2;i<n;i++)
+            cost[i]=Math.min(cost[i-1],cost[i-2])+cost[i];
+        return Math.min(cost[n-1],cost[n-2]);
     }
 }
