@@ -1,48 +1,54 @@
 class Solution {
     public String longestPalindrome(String s) {
-        String rev = "";
         int n = s.length();
-        for(int i=n-1;i>=0;i--){
-            rev = rev + s.charAt(i);
+        int dp[][] = new int[n][n];
+        int max=1, idx=0;
+        for(int k=0;k<n;k++){
+            dp[k][k] = 1;
         }
-        int [][] dp = new int[n+1][n+1];
-        int max = 0;
-        int Idx=0, Jdx;
-        for(int i=0;i<=n;i++){
-            for(int j=0;j<=n;j++){
-                if(i==0 || j==0) {
-                    dp[i][j] = 0;
-                    continue;
-                }
-                
-                if(s.charAt(i-1)==rev.charAt(j-1)){
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                    if(max<dp[i][j] && i-dp[i][j]==n-j){
-                        max=dp[i][j];
-                        Idx=i;
-                        Jdx=j;
-                    }
-                }
-                else
-                    dp[i][j]=0;
+        for(int k=0;k<n-1;k++){
+            if(s.charAt(k)==s.charAt(k+1)){
+                dp[k][k+1] = 1;
+                max=2;
+                idx=k;                                            
             }
         }
-        return s.substring(Idx-max,Idx);
+        for(int k=3;k<=n;k++){
+            for(int i=0;i<=n-k;i++){
+                int j = i+k-1;
+                if(i>j)
+                    continue;
+                    
+                if(s.charAt(i)==s.charAt(j) && dp[i+1][j-1]==1){
+                    dp[i][j] = 1;
+                    if(k>max){
+                        max=k;
+                        idx=i;                                            
+                    }
+                }
+            }
+        }
+        return s.substring(idx,idx+max);
     }
 }
+
 /*
-  0 1 2 3 4 5
-0 0 0 0 0 0 0
-1 0 0 0 1 0 1
-2 0 0 1 0 2 0
-3 0 0 0 2 0 3
-4 0 0 0 0 3 0
-5 0 0 0 0 0 0
+
+k=3
+i=0, j = 2
+
+i=1, j=3
 
 
-babad
-dabab
+cbbd
+0123
 
+
+  0 1 2 3
+0 1 0 0 0
+1   1 1 0
+2     1 0
+3       1
 
 
 
