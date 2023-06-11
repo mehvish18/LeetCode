@@ -1,41 +1,61 @@
 class Solution {
     public int numDecodings(String s) {
-        int n=s.length();
-        int dp[] = new int[n+1];
-        dp[0]=0;
-        dp[1]=0;
-        if(((int)s.charAt(0)-48)>0 && ((int)s.charAt(0)-48)<27)
-            dp[1]=1;
-        
-        if(n==1)
-            return dp[1];
-        
-        dp[2]=0;
-        int ch = Integer.parseInt(s.charAt(0)+""+s.charAt(1));
-        //System.out.println(ch);
-        if(ch<=9)
-            dp[2]=0;
-        else if(ch>9 && ch<27){
-            if(ch==10 || ch==20){
-                dp[2]=1;
-            }
-            else
-                dp[2]=2;
-        }else if(((int)s.charAt(1)-48)>0){
-            dp[2]=1;
+        int n = s.length();
+        if(n==1){
+            if(s.equals("0"))
+                return 0;
+            return 1;
         }
+        Map<String,Character> mp = new HashMap<>();
+        for(int i=65;i<=90;i++){
+            int ch = i-64;
+            mp.put(""+ch,(char)i);
+        }
+        int dp[] = new int[n];
+        if(s.charAt(0)=='0')
+            dp[0]=0;
+        else
+            dp[0]=1;
+        String str = s.substring(0,2);
+        int digit = Integer.parseInt(str);
+        if(mp.get(str)!=null){
+            dp[1]=2;
+            if(digit==10||digit==20)
+                dp[1]=1;
+                
+        }
+        else if(digit>26 && s.charAt(1)!='0')
+            dp[1]=1;
+        else
+            dp[1]=0;
+        for(int i=2;i<n;i++){
+            str = s.substring(i-1,i+1);
+            //System.out.println(mp.get("6")+" char "+mp.get(s.substring(i,i+1)));
+            //System.out.println(i+" char "+s.substring(i,i+1));
+            if(mp.get(str)!=null){
+                //System.out.println("hello "+str);
+                if(str.equals("10")||str.equals("20")){
+                    //System.out.println("hello "+ (i-2)+" "+dp[i-2]);
+                    dp[i] = dp[i-2];
+                }
+                else{
+                    dp[i] = dp[i-2]+dp[i-1];
+                }      
+            }
+            else if(mp.get(s.substring(i,i+1))!=null){
+                //System.out.println("hello "+ (i-2)+" "+dp[i-2]);
+                dp[i] = dp[i-1];
+            }
             
-        for(int i=3;i<=n;i++){
-            ch = (int)s.charAt(i-1)-48;
-            int ch1 = Integer.parseInt(s.charAt(i-2)+""+s.charAt(i-1));
-            //System.out.println(ch+" "+ch1);
-            dp[i]=0;
-            if(ch>0)
-                dp[i] = dp[i] + dp[i-1];
-            if(ch1>9 && ch1<27)
-                dp[i] = dp[i] + dp[i-2];
-        }   
-            
-        return dp[n];
+        }
+        return dp[n-1];
     }
 }
+
+/*
+301
+3
+1
+0
+
+*/
