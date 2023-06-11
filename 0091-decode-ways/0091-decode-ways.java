@@ -30,12 +30,8 @@ class Solution {
             dp[1]=0;
         for(int i=2;i<n;i++){
             str = s.substring(i-1,i+1);
-            //System.out.println(mp.get("6")+" char "+mp.get(s.substring(i,i+1)));
-            //System.out.println(i+" char "+s.substring(i,i+1));
             if(mp.get(str)!=null){
-                //System.out.println("hello "+str);
                 if(str.equals("10")||str.equals("20")){
-                    //System.out.println("hello "+ (i-2)+" "+dp[i-2]);
                     dp[i] = dp[i-2];
                 }
                 else{
@@ -43,7 +39,6 @@ class Solution {
                 }      
             }
             else if(mp.get(s.substring(i,i+1))!=null){
-                //System.out.println("hello "+ (i-2)+" "+dp[i-2]);
                 dp[i] = dp[i-1];
             }
             
@@ -51,11 +46,3 @@ class Solution {
         return dp[n-1];
     }
 }
-
-/*
-301
-3
-1
-0
-
-*/
