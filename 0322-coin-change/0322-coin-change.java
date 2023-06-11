@@ -1,30 +1,57 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int dp[][] = new int[coins.length+1][amount+1];
-        for(int i=0;i<coins.length+1;i++){
-            for(int j=0;j<amount+1;j++){
-                if(i==0 && j!=0)
-                    dp[i][j] = Integer.MAX_VALUE-1;
-                else if(j==0)
-                    dp[i][j] = 0;
-                else if(i==1){
-                    if(j%coins[i-1]==0)
-                        dp[i][j]=j/coins[i-1];
-                    else
-                        dp[i][j] = Integer.MAX_VALUE-1;
-                }
-                else if(coins[i-1]==j)
+        int n = coins.length;
+        Arrays.sort(coins);
+        int dp[][] = new int[n+1][amount+1];
+        for(int i=0;i<=n;i++){
+            dp[i][0]=0;
+        }
+        for(int j=1;j<=amount;j++){
+            dp[0][j]=Integer.MAX_VALUE;
+            if(j%coins[0]==0)
+                dp[1][j] = j/coins[0];
+            else
+                dp[1][j] = Integer.MAX_VALUE;
+        }
+        /*for(int i=0;i<=n;i++){
+            for(int j=0;j<=amount;j++){
+                System.out.print(dp[i][j]+" ");
+            }
+            System.out.println();
+        }*/
+        for(int i=2;i<=n;i++){
+            for(int j=1;j<=amount;j++){
+                if(coins[i-1]==j)
                     dp[i][j]=1;
-                else if(j<coins[i-1]) {
+                else if(coins[i-1]<j){
+                    if(dp[i][j-coins[i-1]]==Integer.MAX_VALUE)
+                             dp[i][j] = dp[i-1][j];
+                    else
+                        dp[i][j] = Math.min(1+dp[i][j-coins[i-1]],dp[i-1][j]);
+                }
+                else
                     dp[i][j] = dp[i-1][j];
-                }
-                else {
-                    dp[i][j] = Math.min(dp[i-1][j],1+dp[i][j-coins[i-1]]);
-                }
             }
         }
-        if(dp[coins.length][amount]==Integer.MAX_VALUE-1)
+        /*System.out.println();
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=amount;j++){
+                System.out.print(dp[i][j]+" ");
+            }
+            System.out.println();
+        }*/
+        if(dp[n][amount]==Integer.MAX_VALUE)
             return -1;
-        return dp[coins.length][amount];
+        return dp[n][amount];
     }
 }
+
+
+/*
+
+    0 1 2 3 4 5 6 7 8 9 10 11
+  0 0 - - - - - - - - -  -  -
+2 1 0 - 1 - 2 - 3 - 4 -  5  -
+5 2 0 - 1 - 2 1  
+1 3 0
+*/
