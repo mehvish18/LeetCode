@@ -1,27 +1,29 @@
 class Solution {
-    public int burstBal(int[] nums, int l, int r, int dp[][]){
-        if(l>r){
-            return 0;
-        }
-        if(dp[l][r]!=0)
-            return dp[l][r];
-        for(int i=l;i<=r;i++){
-            int coins = nums[i];
-            if(l-1>=0)
-                coins *= nums[l-1];
-            if(r+1<nums.length)
-                coins *= nums[r+1];
-            coins += burstBal(nums,l,i-1,dp) + burstBal(nums,i+1,r,dp);
-            dp[l][r]=Math.max(dp[l][r], coins);
-        }
-        return dp[l][r];
-    }
     public int maxCoins(int[] nums) {
         int n = nums.length;
-        int dp[][] = new int[n][n];
-        return burstBal(nums,0,n-1,dp);
-    }
+        int arr[] = new int[n+2];
+        arr[0] = arr[n+1] = 1;   
+        for(int i=1;i<=n;i++){
+            arr[i] = nums[i-1];  
+        }
         
+        int dp[][] = new int[n+2][n+2];
+        
+        for(int window = 1;window<=n;window++){  
+		
+            for(int left = 1;left<=n-window+1;left++){   
+			
+                int right = left+window-1;             
+				
+                for(int i=left;i<=right;i++){ 
+                   
+                    dp[left][right] = Math.max(dp[left][right], (arr[left-1]*arr[i]*arr[right+1]) + dp[left][i-1] + dp[i+1][right]);
+                                    
+                }
+            }
+        }
+        return dp[1][n];
+    }
 }
 
 /*
@@ -34,7 +36,7 @@ class Solution {
 
 31 + 1*5*8 +8
 
-315 + 5*8*1
+315 
 
 
 
