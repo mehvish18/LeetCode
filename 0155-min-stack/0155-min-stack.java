@@ -1,15 +1,18 @@
 class MinStack {
     List<Integer> lst = new ArrayList<>();
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
     public MinStack() {
         
     }
     
     public void push(int val) {
         lst.add(val);
+        pq.add(val);
     }
     
     public void pop() {
-        lst.remove(lst.size()-1);
+        pq.remove(lst.get(lst.size()-1));
+        lst.remove(lst.size()-1);    
     }
     
     public int top() {
@@ -17,12 +20,7 @@ class MinStack {
     }
     
     public int getMin() {
-        int min = Integer.MAX_VALUE;
-        for(int i=0;i<lst.size();i++){
-            if(lst.get(i)<min)
-                min = lst.get(i);
-        }
-        return min;
+        return pq.peek();
     }
 }
 
