@@ -1,68 +1,44 @@
 class Solution {
     public String minWindow(String s, String t) {
-        String str="";
         if(t.length()>s.length())
-            return str;
-        int i=0,j=0,min=Integer.MAX_VALUE,lc=0;
-        Map<Character,Integer> mp = new HashMap<>();
-        for(i=0;i<t.length();i++){
+            return "";
+        Map<Character, Integer> mp = new HashMap<>();
+        for(int i=0;i<t.length();i++){
             char ch = t.charAt(i);
             mp.put(ch,mp.getOrDefault(ch,0)+1);
         }
-        i=0;
-        while(i<s.length() && mp.get(s.charAt(i))==null){
+        int c = mp.size();
+        int min = Integer.MAX_VALUE, j=0;
+        String ans="";
+        while(j<s.length() && mp.get(s.charAt(j))==null){
             j++;
-            i++;
         }
-        for(;i<s.length();i++){
+        for(int i=j;i<s.length();i++){
             char ch = s.charAt(i);
             if(mp.get(ch)!=null){
                 mp.put(ch,mp.get(ch)-1);
-            
-            if(mp.get(ch)==0){
-                lc++;
-            }
-            while(mp.get(ch)<=0){
-                char c = s.charAt(j);
-                if(mp.get(c)!=null){
-                    if(mp.get(c)+1>0){
-                        break;
-                    }
-                    mp.put(c,mp.get(c)+1);  
+                if(mp.get(ch)==0){
+                    c--;
                 }
-                j++;
                 
-            }
-            }
-            if(lc==mp.size()){
-                if((i-j+1)<min){
-                    min = i-j+1;
-                    str = s.substring(j,i+1);
+                while(mp.get(ch)<=0){
+                    char cj = s.charAt(j);
+                    if(mp.get(cj)!=null){
+                        if(mp.get(cj)+1>0)
+                            break;
+                        mp.put(cj,mp.get(cj)+1);
+                    }
+                    j++;
                 }
-            }    
+                
+                if(c==0){
+                        if((i-j+1)<min){
+                            min = i-j+1;
+                            ans = s.substring(j,i+1);
+                        }
+                }
+            }  
         }
-        return str;
+        return ans;
     }
 }
-
-/*
-s "aaaaaaaaaaaabbbbbcdd"
-t "abcdd"
-A:1
-B:1
-C:1
-D:2
-w= 4
-
-w=1
-A:0
-B:1
-C:1
-D:2
-
-i=1
-j=1
-
-
-
-*/
