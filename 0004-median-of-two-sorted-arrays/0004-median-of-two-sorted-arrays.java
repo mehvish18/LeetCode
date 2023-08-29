@@ -1,33 +1,64 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int mid = (nums1.length + nums2.length)/2;
-        int partition1 = nums1.length/2, partition2;
-        boolean isEven = false;
-        if((nums1.length + nums2.length)%2==0)
-            isEven = true;
-        int num1left,num2left,num1right, num2right;
-        while(partition1>=0 && partition1<=nums1.length){
-            partition2 = mid - partition1;
-            num1left = (partition1>0)?nums1[partition1-1]:Integer.MIN_VALUE;
-            num2left = (partition2>0)?nums2[partition2-1]:Integer.MIN_VALUE;
-            num1right = (partition1<nums1.length)?nums1[partition1]:Integer.MAX_VALUE;
-            num2right = (partition2<nums2.length)?nums2[partition2]:Integer.MAX_VALUE;
-            if(num1left<=num2right && num2left<=num1right){
-                if(isEven){
-                    int  frstHalf = Math.max(num1left,num2left);
-                    int  scndHalf = Math.min(num1right,num2right);
-                    return (double)(frstHalf+scndHalf)/2;
-                }
-                else {
-                    return Math.min(num1right,num2right);
-                }
-            }
-            else if(num1left>num2right)
-                partition1--;
+        int[] a;
+        int[] b;
+        if(nums2.length<nums1.length){
+            a = nums2;
+            b = nums1;
+        }
+        else {
+            a = nums1;
+            b = nums2;
+        }
+        int n1 = a.length;
+        int n2 = b.length;
+        int n = n1+n2;
+        int half = (n+1)/2;
+        int l=0, r=n1;
+        double median=0 ;
+        while(l<=r){
+            int i = l + (r-l)/2;
+            int j = half - i;
+            //System.out.println(l+" "+r+" "+i+" "+j);
+            int aleft, aright, bleft, bright;
+            if(i>0)
+                aleft = a[i-1];
             else
-                partition1++;
+                aleft = Integer.MIN_VALUE;
+ 
+            if(i<n1)
+                aright = a[i];
+            else
+                aright = Integer.MAX_VALUE;
+            
+            if(j>0)
+                bleft = b[j-1];
+            else
+                bleft = Integer.MIN_VALUE;
+ 
+            if(j<n2)
+                bright = b[j];
+            else
+                bright = Integer.MAX_VALUE;
+            
+            //System.out.println(aleft+" "+aright+" "+bleft+" "+bright);
+            
+            if(aleft<=bright && bleft<=aright){
+                if(n%2==0){
+                    median = (Math.max(aleft,bleft)+Math.min(aright,bright))/2.0;
+                }
+                else
+                    median = Math.max(aleft,bleft);
+                return median;
+            }
+            else if(aleft>bright){
+                r = i-1;
+            }
+            else {
+                l = i+1;
+            }
             
         }
-        return 0;
+        return -1;
     }
 }
