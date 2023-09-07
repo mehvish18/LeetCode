@@ -1,6 +1,7 @@
 class Solution {
     int [][] dir = {{0,1},{1,0},{-1,0},{0,-1}};
     int n=0,m=0;
+    int [][] pacAtl;
     public boolean bfs(int[][] heights, int i, int j){
         LinkedList<int[]> q = new LinkedList<>();
         int [][] visited = new int[n][m];
@@ -27,6 +28,8 @@ class Solution {
                 v[1]=y;
                 if(!(x<0||y<0||x>=n||y>=m)){
                     if(visited[x][y]==0 && heights[x][y]<=heights[pos[0]][pos[1]]){
+                        if(pacAtl[x][y]==1)
+                            return true;
                         if(x==0||y==0)
                             pacific = true;
                         if(x==n-1 || y==m-1)
@@ -47,9 +50,11 @@ class Solution {
         List<List<Integer>> ans = new ArrayList<>();
         n = heights.length;
         m = heights[0].length;
+        pacAtl = new int[n][m];
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 if(bfs(heights,i,j)){
+                    pacAtl[i][j]=1;
                     List<Integer> pos = new ArrayList<>();
                     pos.add(i);
                     pos.add(j);
