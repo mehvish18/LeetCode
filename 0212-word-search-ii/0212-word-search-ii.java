@@ -66,7 +66,6 @@ class Solution {
         TreeNode node = parent.neighbors.get(board[i][j]);
         if(node!=null){
             visited[i][j]=1;
-            //System.out.println(node.value);
             for(int k=0;k<4;k++){
                 int x = i+dir[k][0];
                 int y = j + dir[k][1];
@@ -91,7 +90,6 @@ class Solution {
             for(int j=0;j<n;j++){
                 if(startsWithSet.contains(board[i][j])){
                     //System.out.println(board[i][j]);
-                    visited = new int[m][n];
                     dfs(board,i,j,root,"");
                     //System.out.println("-----");
                 }
