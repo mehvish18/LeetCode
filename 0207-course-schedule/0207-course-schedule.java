@@ -1,37 +1,38 @@
 class Solution {
-    int [] deg;
-    List<List<Integer>> adj = new ArrayList<>();
-    List<Integer> toplogical = new ArrayList<>();
-    
-    
-    public boolean canFinish(int n, int[][] prerequisites) {
-        Queue<Integer> q = new LinkedList<Integer>();
-        deg = new int[n];
-        for(int i=0;i<n;i++){
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> adj = new ArrayList<>(numCourses);
+        for(int i=0;i<numCourses;i++){
             adj.add(new ArrayList<>());
         }
         for(int i=0;i<prerequisites.length;i++){
-            deg[prerequisites[i][0]]++;
             adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
         }
-        for(int i=0;i<n;i++){
-            if(deg[i]==0) {
-                toplogical.add(i);
+        LinkedList<Integer> q = new LinkedList<>();
+        int [] inDegree = new int [numCourses];
+        for(int i=0;i<numCourses;i++){
+            for(int j=0;j<adj.get(i).size();j++){
+                inDegree[adj.get(i).get(j)]++;
+            }
+        }
+        for(int i=0;i<numCourses;i++){
+            if(inDegree[i]==0){
                 q.add(i);
             }
         }
-        
-        while(!q.isEmpty()){
-            int node = q.poll();
-            for(int i=0;i<adj.get(node).size();i++){
-                if(--deg[adj.get(node).get(i)]==0){
-                    q.add(adj.get(node).get(i));
-                    toplogical.add(adj.get(node).get(i));
+        int cnt =0;
+        while(q.size()>0){
+            int u = q.poll();
+            cnt++;
+            for(int v:adj.get(u)){
+                if(--inDegree[v]==0){
+                    q.add(v);
                 }
             }
         }
-        return (toplogical.size()>=n);
+        if(cnt==numCourses)
+            return true;
+        return false;
+        
+        
     }
 }
-
-  
