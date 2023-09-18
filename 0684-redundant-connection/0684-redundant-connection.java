@@ -36,7 +36,7 @@ class Solution {
                 }
             }
         }
-        if((mp.get(u+" "+v)!=null && mp.get(u+" "+v)==n)||(mp.get(v+" "+u)!=null && mp.get(v+" "+u)==n))
+        if((mp.get(u+" "+v)!=null && mp.get(u+" "+v)==n))
             return edges[n];
         int max=mp.get(u+" "+v);
         //System.out.println("ans "+u+" "+v);
@@ -47,6 +47,7 @@ class Solution {
         vs.add(v);
         int node=0;
         int u1=u,v1=v;
+        int steps = 0;
         while(true){
             //System.out.println(u+" "+v);
             if(us.contains(v)) {
@@ -61,11 +62,14 @@ class Solution {
             u = parent[u];
             us.add(u);
             vs.add(v);
+            steps += 1;
         }
         v=v1;
         u=u1;
+        int step2 = 0;
         //System.out.println(u+" "+v+" "+ node);
         while(u!=node && v!=node){
+            step2 += 1;
             if(v!=node){
                 if(mp.get(parent[v]+" "+v)!=null && mp.get(parent[v]+" "+v)>max)
                     max=mp.get(parent[v]+" "+v);
@@ -78,7 +82,9 @@ class Solution {
             }
             //System.out.println(u+" "+v);
         }
+        System.out.println("1: "+steps+" 2:"+step2);
         return edges[max];
+        
     }
 }
 
