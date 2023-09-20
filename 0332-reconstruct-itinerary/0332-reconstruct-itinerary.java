@@ -1,25 +1,25 @@
 class Solution {
-    Map<String,PriorityQueue<String>> adj = new HashMap<>();
     List<String> ans = new ArrayList<>();
-    public List<String> findItinerary(List<List<String>> tickets) {
-        System.out.println(ans.size());
-        for(int i=0;i<tickets.size();i++){
-            PriorityQueue<String> lst = adj.getOrDefault(tickets.get(i).get(0),new PriorityQueue<String>());
-            lst.add(tickets.get(i).get(1));
-            adj.put(tickets.get(i).get(0),lst);
+    
+    public void dfs(Map<String,PriorityQueue<String>> adj, String node){
+      if(adj.get(node)!=null){
+        while(adj.get(node).size()>0){
+          String v = adj.get(node).poll();
+          dfs(adj,v);
         }
-        dfs("JFK");
+      }
+      ans.add(node);
+    }
+    
+    public List<String> findItinerary(List<List<String>> tickets) {
+        Map<String,PriorityQueue<String>> adj = new HashMap<>();
+        for(int i=0;i<tickets.size();i++){
+            PriorityQueue pq = adj.getOrDefault(tickets.get(i).get(0), new PriorityQueue<String>());
+            pq.add(tickets.get(i).get(1));
+            adj.put(tickets.get(i).get(0),pq);  
+        }
+        dfs(adj,"JFK");
         Collections.reverse(ans);
         return ans;
-    }
-    public void dfs(String source){
-        PriorityQueue<String> q = adj.get(source);
-        if(q!=null){
-            while(q.size()>0){
-                String v = q.poll();
-                dfs(v);
-            }
-        }
-        ans.add(source);
     }
 }
