@@ -1,50 +1,39 @@
 class Solution {
-    int v;
-    int [][] graph;
-    int [] parent;
-    int ans=0;
-    public int minKey(int [] key, boolean [] inMST){
-        int m = Integer.MAX_VALUE;
-        int mIndex = -1;
-        for(int i=0;i<v;i++){
-           if(!inMST[i] && key[i]<=m){
-               m=key[i];
-               mIndex = i;
-           }
-        }
-        return mIndex;
+    
+    public int minCostConnectPoints(int[][] points) {
+        int n = points.length;
+        int [][] adj = new int[n][n];
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+    public int compare(int[] n1, int[] n2) {
+        return n1[1]-n2[1];
     }
-    public void prims(){  
-        int [] key = new int[v];
-        boolean [] inMst = new boolean[v];
-        Arrays.fill(key, Integer.MAX_VALUE);
-        key[0]=0;
-        for(int i=0;i<v-1;i++){
-            int u = minKey(key,inMst);
-            inMst[u] = true;
-            ans += key[u];
-            for(int j=0;j<v;j++){
-                if(graph[u][j]!=0 && !inMst[j] && graph[u][j]<key[j]){
-                    key[j]=graph[u][j];
-                
+});
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                adj[i][j] = (int)(Math.abs(points[i][0]-points[j][0]) + Math.abs(points[i][1]-points[j][1]));
+            }
+        }
+        int [] arr= new int[2];
+        arr[0] = 0;
+        arr[1] = 0;
+        pq.add(arr);
+        int [] vis = new int[n];
+        int dis = 0;
+        while(pq.size()>0){
+            int [] u = pq.poll();
+            if(vis[u[0]]==1)
+                continue;
+            vis[u[0]] = 1;
+            dis += u[1];
+            for(int j=0;j<n;j++){
+                if(vis[j]==0){
+                    arr= new int[2];
+                    arr[0] = j;
+                    arr[1] = adj[u[0]][j];
+                    pq.add(arr);
                 }
             }
         }
-        int u = minKey(key,inMst);
-        ans += key[u];
-    }
-    public int minCostConnectPoints(int[][] points) {
-        v = points.length;
-        parent = new int[v];
-        graph = new int[v][v];
-        for(int i=0;i<v;i++){
-            graph[i][i]=0;
-            for(int j=i+1; j<v;j++){
-                    graph[i][j] = Math.abs(points[i][0]-points[j][0]) + Math.abs(points[i][1]-points[j][1]);
-                graph[j][i] = Math.abs(points[i][0]-points[j][0]) + Math.abs(points[i][1]-points[j][1]);
-            }
-        }
-        prims();
-        return ans;
+        return dis;
     }
 }
