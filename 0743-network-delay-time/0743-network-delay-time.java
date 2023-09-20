@@ -1,67 +1,62 @@
-public class Node implements Comparator<Node>{
-        public int node;
-        public int dist;
-        
-        public Node(){
-            
-        }
-        public Node(int node,int dist){
-            this.node=node;
-            this.dist=dist;
-        }
-        @Override public int compare(Node n1, Node n2){
-            return n1.dist-n2.dist;
-        }
-    }
 class Solution {
-    public int m, n1;
-    public int [] dist;
-    public List<List<Node>> adj = new ArrayList<>();
-    public Set<Integer> settled = new HashSet<>();
-    
-    
-    public void dijikstra(int source){
-        PriorityQueue<Node> pq = new PriorityQueue<Node>(n1, new Node());
-        dist[source]=0;
-        pq.add(new Node(source,0));
-        while(settled.size()!=n1){
-            if(pq.isEmpty())
-                return;
-            int u = pq.remove().node;
-            if(settled.contains(u))
-                continue;
-            
-            settled.add(u);
-            for(int i=0;i<adj.get(u).size();i++){
-                Node v = adj.get(u).get(i);
-                if(!settled.contains(v.node)){
-                    if(dist[u]+v.dist < dist[v.node]){
-                        dist[v.node] = dist[u]+v.dist;
-                    }
-                    pq.add(new Node(v.node,dist[v.node]));
+    public int networkDelayTime(int[][] times, int n, int k) {
+        List<List<int[]>> adj = new ArrayList<>();
+        int [] dist = new int[n+1];
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+    public int compare(int[] n1, int[] n2) {
+        return n1[1]-n2[1];
+    }
+});
+        for(int i=0;i<n+1;i++){
+            adj.add(new ArrayList<>());
+            dist[i]= Integer.MAX_VALUE;
+        }
+        for(int i=0;i<times.length;i++){
+            int [] arr = new int[2];
+            arr[0]=times[i][1];
+            arr[1]=times[i][2];
+            adj.get(times[i][0]).add(arr);
+        }
+        int [] arr = new int[2];
+        arr[0]=k;
+        arr[1]=0;
+        dist[k]=0;
+        pq.add(arr);
+        while(pq.size()>0){
+            int [] u = pq.poll();
+            for(int i=0;i<adj.get(u[0]).size();i++){
+                int [] v = adj.get(u[0]).get(i);
+                if(dist[v[0]]>dist[u[0]]+v[1]){
+                    dist[v[0]]=dist[u[0]]+v[1];
+                    arr = new int[2];
+                    arr[0]=v[0];
+                    arr[1]=dist[v[0]];
+                    pq.add(arr);
                 }
             }
         }
-    }
-    public int networkDelayTime(int[][] times, int n, int k) {
-        n1=n;
-        dist = new int[n+1];
-        m = times.length;
-        for(int i=0;i<=n;i++){
-            adj.add(new ArrayList<>());
-            dist[i]=Integer.MAX_VALUE;
-        }
-        for(int i=0;i<m;i++){
-            Node no = new Node(times[i][1],times[i][2]);
-            adj.get(times[i][0]).add(no);
-        }
-        dijikstra(k);
         int max=0;
-        for(int i=1;i<=n;i++){
-            max = Math.max(max,dist[i]);
+        for(int i=1;i<n+1;i++){
+            if(max<dist[i])
+                max = dist[i];
         }
-        if(max == Integer.MAX_VALUE )
+        if(max==Integer.MAX_VALUE)
             return -1;
         return max;
+        
     }
 }
+
+/*
+1 : 2,1
+2: 1,3
+
+0   1   2
+inf 3   0
+
+2,0
+
+
+
+
+*/
