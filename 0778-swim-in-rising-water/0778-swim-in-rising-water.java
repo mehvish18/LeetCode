@@ -1,32 +1,54 @@
 class Solution {
+    int [][] dir = {{0,1},{1,0},{-1,0},{0,-1}};
     public int swimInWater(int[][] grid) {
-        int [][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
-        int m = grid.length;
-        int n = grid[0].length;
-        PriorityQueue<int []> pq = new PriorityQueue<>(new Comparator<int[]>(){
-            public int compare(int p1[], int p2[]){
-                return grid[p1[0]][p1[1]]-grid[p2[0]][p2[1]];
+        int n = grid.length;
+        int m = grid[0].length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>(){
+            public int compare(int[] n1, int[] n2){
+                return n1[2]-n2[2];
             }
         });
-        boolean [][] seen = new boolean[m][n];
-        pq.add(new int[]{0,0});
-        int max = grid[0][0];
+        int [] arr = new int[3];
+        arr[0] = 0;
+        arr[1] = 0;
+        arr[2] = grid[0][0];
+        pq.add(arr);
+        int min = Integer.MAX_VALUE;
+        int [][] visited = new int[n][m];
         while(pq.size()>0){
-            int [] t = pq.remove();
-            if(seen[t[0]][t[1]])
-                continue;
-            seen[t[0]][t[1]]=true;
-            max = Math.max(max,grid[t[0]][t[1]]);
-            if(t[0]==m-1 && t[1]==n-1)
-                break;
+            int[] u = pq.poll();
+            visited[u[0]][u[1]]=1;
+            if(u[0]==n-1 && u[1]==m-1){
+                min = Math.min(min,u[2]);
+            }
             for(int i=0;i<4;i++){
-                int x  = t[0]+dir[i][0];
-                int y  = t[1]+dir[i][1];
-                if(x>=0 && y>=0 && x<m && y<n){
-                    pq.add(new int[]{x,y});
+                int x = u[0]+dir[i][0];
+                int y = u[1]+dir[i][1];
+                if(!(x<0 || y<0 || x>=n || y>=m)){
+                    if(visited[x][y]==0){
+                        arr = new int[3];
+                        arr[0] = x;
+                        arr[1] = y;
+                        arr[2] = Math.max(u[2],grid[x][y]); 
+                        pq.add(arr);
+                    }
                 }
-            }   
+            }
         }
-        return max;
+        return min;
     }
 }
+
+
+/*
+0 1 2 3 4
+        5
+
+21:15,22:15,22:2,23:1,24:0
+
+
+
+
+
+
+*/
