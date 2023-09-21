@@ -38,7 +38,6 @@ class Solution {
                 if(dist[v[0]]>u[1]+v[1]){
                     if(v[0]!=dst && u[2]==0)
                         continue;
-                    //System.out.println("u:"+u[0]+" v:"+v[0]+" dist[u]:"+dist[u[0]]+" v[1]:"+v[1]);
                     dist[v[0]]=u[1]+v[1];
                     arr = new int[3];
                     arr[0] = v[0];
