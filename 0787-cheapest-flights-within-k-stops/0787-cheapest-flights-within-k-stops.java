@@ -35,7 +35,7 @@ class Solution {
                 continue; 
             for(int i=0;i<adj.get(u[0]).size();i++){
                 int [] v =  adj.get(u[0]).get(i);
-                if(dist[v[0]]>dist[u[0]]+v[1]){
+                if(dist[v[0]]>u[1]+v[1]){
                     if(v[0]!=dst && u[2]==0)
                         continue;
                     //System.out.println("u:"+u[0]+" v:"+v[0]+" dist[u]:"+dist[u[0]]+" v[1]:"+v[1]);
