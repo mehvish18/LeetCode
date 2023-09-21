@@ -1,61 +1,58 @@
-public class Node implements Comparator<Node>{
-    public int node;
-    public int dist;
-    public int kLeft;
-    
-    public Node(){
-        
-    }
-    
-    public Node(int n, int d, int k1){
-        this.node = n;
-        this.dist = d;
-        this.kLeft = k1;
-    }
-    
-    public Node(int n, int d){
-        this.node = n;
-        this.dist = d;
-    }
-    
-    @Override 
-    public int compare(Node n1, Node n2){
-        return n1.dist-n2.dist;
-    }
-}
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        List<List<Node>> adj = new ArrayList<>();
+        List<List<int []>> adj = new ArrayList<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new Comparator<int[]>(){
+            public int compare(int[] n1, int[] n2){
+                return n1[1]-n2[1];
+            }
+        });
+        int [] arr = new int[3];
+        arr[0] = src;
+        arr[1] = 0;
+        arr[2] = k;
+        pq.add(arr);
+        int [] dist = new int[n];
+        int [] steps = new int[n];
+        
         for(int i=0;i<n;i++){
+            dist[i] = Integer.MAX_VALUE;
+            steps[i] = Integer.MAX_VALUE;
             adj.add(new ArrayList<>());
         }
-        for(int i=0; i<flights.length; i++){
-                adj.get(flights[i][0]).add(new Node(flights[i][1],flights[i][2]));
-        }
-        int []dist = new int[n];
-        int []step = new int[n];
-        Arrays.fill(dist,Integer.MAX_VALUE);
-        Arrays.fill(step,Integer.MAX_VALUE);
-        PriorityQueue<Node> pq = new PriorityQueue<Node>(new Node());
-        pq.add(new Node(src,0,k));
         dist[src]=0;
-        while(!pq.isEmpty()){
-                //break;
-            Node u = pq.remove();
-            if(u.node==dst)
-                return u.dist;
-            
-            for(Node v:adj.get(u.node)){
-                if(u.kLeft>=0){
-                    if(v.node!=dst && u.kLeft==0)
+        for(int i=0;i<flights.length;i++){
+            int [] a =new int[2];
+            a[0] = flights[i][1];
+            a[1] = flights[i][2];
+            adj.get(flights[i][0]).add(a);
+        }
+        while(pq.size()>0){
+            int [] u = pq.poll();
+            if(u[0]==dst) {
+                return dist[dst];
+            }
+            if(u[2]<0)
+                continue; 
+            for(int i=0;i<adj.get(u[0]).size();i++){
+                int [] v =  adj.get(u[0]).get(i);
+                if(dist[v[0]]>dist[u[0]]+v[1]){
+                    if(v[0]!=dst && u[2]==0)
                         continue;
-                    if(u.dist+v.dist < dist[v.node]){
-                        dist[v.node]=u.dist+v.dist;
-                        step[v.node]=u.kLeft-1;
-                        pq.add(new Node(v.node,u.dist+v.dist,u.kLeft-1));
-                    }
-                    else if(u.kLeft-1 > step[v.node])
-                        pq.add(new Node(v.node,u.dist+v.dist,u.kLeft-1));
+                    //System.out.println("u:"+u[0]+" v:"+v[0]+" dist[u]:"+dist[u[0]]+" v[1]:"+v[1]);
+                    dist[v[0]]=u[1]+v[1];
+                    arr = new int[3];
+                    arr[0] = v[0];
+                    arr[1] = dist[v[0]];
+                    arr[2] = u[2]-1;
+                    steps[v[0]] = u[2]-1;
+                    pq.add(arr);
+                }
+                if(u[2]-1>steps[v[0]]){
+                    arr = new int[3];
+                    arr[0] = v[0];
+                    arr[1] = u[1]+v[1];
+                    arr[2] = u[2]-1;
+                    pq.add(arr);
                 }
             }
         }
@@ -65,3 +62,9 @@ class Solution {
     }
 }
 
+/*
+
+
+
+ 
+*/
