@@ -19,7 +19,8 @@ class Solution {
             int[] u = pq.poll();
             visited[u[0]][u[1]]=1;
             if(u[0]==n-1 && u[1]==m-1){
-                min = Math.min(min,u[2]);
+                return u[2];
+                //min = Math.min(min,u[2]);
             }
             for(int i=0;i<4;i++){
                 int x = u[0]+dir[i][0];
@@ -38,17 +39,3 @@ class Solution {
         return min;
     }
 }
-
-
-/*
-0 1 2 3 4
-        5
-
-21:15,22:15,22:2,23:1,24:0
-
-
-
-
-
-
-*/
