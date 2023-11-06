@@ -1,40 +1,34 @@
 class Solution {
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
-        List<List<Integer>> adj = new ArrayList<>(numCourses);
+    public int[] findOrder(int numCourses, int[][] preq) {
+        List<List<Integer>> adj = new ArrayList<>();
+        int [] indegree = new int[numCourses];
         for(int i=0;i<numCourses;i++){
-            adj.add(new ArrayList<>());
+            List<Integer> lst = new ArrayList<>();
+            adj.add(lst);
         }
-        for(int i=0;i<prerequisites.length;i++){
-            adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
+        for(int i=0;i<preq.length;i++){
+                adj.get(preq[i][1]).add(preq[i][0]);
+                indegree[preq[i][0]]++;
         }
         LinkedList<Integer> q = new LinkedList<>();
-        int [] inDegree = new int [numCourses];
-        int [] topSort = new int[numCourses];
-        
         for(int i=0;i<numCourses;i++){
-            for(int j=0;j<adj.get(i).size();j++){
-                inDegree[adj.get(i).get(j)]++;
-            }
-        }
-        for(int i=0;i<numCourses;i++){
-            if(inDegree[i]==0){
+            if(indegree[i]==0)
                 q.add(i);
-            }
         }
-        
-        int cnt =0;
+        int []  ans = new int[numCourses];
+        int cnt=0;
         while(q.size()>0){
             int u = q.poll();
-            topSort[cnt]=u;
+            ans[cnt]=u;
             cnt++;
-            for(int v:adj.get(u)){
-                if(--inDegree[v]==0){
-                    q.add(v);
+            for(int ele : adj.get(u)){
+                if(--indegree[ele]==0){
+                    q.add(ele);
                 }
             }
         }
         if(cnt==numCourses)
-            return topSort;
+            return ans;
         return new int[0];
     }
 }
