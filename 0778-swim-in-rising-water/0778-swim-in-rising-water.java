@@ -13,14 +13,12 @@ class Solution {
         arr[1] = 0;
         arr[2] = grid[0][0];
         pq.add(arr);
-        int min = Integer.MAX_VALUE;
         int [][] visited = new int[n][m];
         while(pq.size()>0){
             int[] u = pq.poll();
             visited[u[0]][u[1]]=1;
             if(u[0]==n-1 && u[1]==m-1){
                 return u[2];
-                //min = Math.min(min,u[2]);
             }
             for(int i=0;i<4;i++){
                 int x = u[0]+dir[i][0];
@@ -36,6 +34,6 @@ class Solution {
                 }
             }
         }
-        return min;
+        return -1;
     }
 }
