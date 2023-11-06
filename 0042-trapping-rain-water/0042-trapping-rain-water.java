@@ -6,7 +6,7 @@ class Solution {
         while(l<h){
             int currLevel = Math.min(height[l],height[h]);
             if(currLevel<=level){
-                subtractWater += Math.min(level,currLevel);
+                subtractWater += currLevel;
             }
             else{
                 addWater += (currLevel-level) * (h-l-1);
