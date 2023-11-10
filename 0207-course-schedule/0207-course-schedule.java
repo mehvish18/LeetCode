@@ -5,7 +5,7 @@ class Solution {
             adj.add(new ArrayList<>());
         }
         for(int i=0;i<prerequisites.length;i++){
-            adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
         }
         LinkedList<Integer> q = new LinkedList<>();
         int [] inDegree = new int [numCourses];
