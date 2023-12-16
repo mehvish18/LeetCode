@@ -1,54 +1,69 @@
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
-        int re= matrix.length-1;
-        int cs = 0;
-        int rs = 0;
-        int ce = matrix[0].length-1;
-        int noOfElements = matrix.length*matrix[0].length;
-        
-        int r=0,c=0;
-        List<Integer> lst = new ArrayList<>();
-        boolean left=false, right=true, top=false, bottom=false;
-        for(int i=0;i<noOfElements;i++){
-            //System.out.println(r+" "+c);
-            //System.out.println(matrix[r][c]);
-            lst.add(matrix[r][c]);
-            if(right && r==rs && c==ce){
-                //System.out.println("bottom");
-                rs++;
-                right=false;
-                bottom=true;
+        int l=0,r=matrix[0].length-1, u = 0, d = matrix.length-1;
+        int n = matrix[0].length * matrix.length;
+        int dir = 1;
+        int j=0,k=0;
+        if(matrix[0].length==1)
+            dir = 2;
+        //1->r 2->d 3->l 4->u
+        List<Integer> ans = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            //System.out.println("u: "+u+" l: "+l+" r: "+r+" d: "+d);
+            //System.out.println(j+" "+k+" dir:"+dir);
+            ans.add(matrix[j][k]);
+            if(dir==1)
+                k++;
+            else if(dir==2)
+                j++;
+            else if(dir==3)
+                k--;
+            else if(dir==4)
+                j--;
+            
+            if(dir!=2 && j==u && k==r && u!=d){
+                dir = 2;
+                u++;
+                //System.out.println("changed to 2");
             }
-            else if(bottom && r==re && c==ce){
-                ce--;
-                bottom=false;
-                left=true;
-            }
-            else if(left && r==re && c==cs){
-                re--;
-                top=true;
-                left=false;
-            }
-            else if(top && r==rs && c==cs){
-                cs++;
-                top=false;
-                right=true;
-            }
-            if(right){
-                c++;
-            }
-            else if(left){
-                c--;
-            }
-            else if(bottom){
-                r++;
-            }
-            else if(top){
+            else if(dir!=3 && k==r && j==d && l!=r){
+                dir = 3;
                 r--;
+                //System.out.println("changed to 3");
             }
+            else if(dir!=4 && k==l && j==d && u!=d){
+                dir = 4;
+                d--;
+                //System.out.println("changed to 4");
+            }
+            else if(dir!=1 && j==u && k==l && l!=r){
+                l++;
+                dir = 1;
+                //System.out.println("changed to 1");
+            }
+
+            
         }
-        return lst;
-        
+        return ans;
     }
 }
 
+/*
+  1, 2,3,4, 8,12, 11 10 9,5 6 7
+  
+  
+  1  2   3  4 
+  5  6   7  8
+  9  10  11 12
+  13 14  15 16
+ 
+ 
+ l = 2
+ r = 2
+ u = 2
+ d = 2
+ 
+ 
+  
+ 
+*/
